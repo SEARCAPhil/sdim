@@ -1,14 +1,9 @@
 export default class {
   constructor () { 
-    this.ALIAS = 'rfp'
+    this.ALIAS = 'rs'
     this.REGEX = [
       {
-        expression: /Payee: \w*\s/gi,
-        filter: this.payeeFilter
-      }, 
-      {
-        expression: /PAYMENT/gi,
-        filter: this.paymentFilter
+        expression: /BILLING/gi,
       }
     ]
   }
@@ -21,9 +16,7 @@ export default class {
   }
 
   payeeFilter (data = []) {
-    // prevent null values from copying
-    let dataOrig = data || []
-    let dataCopy = [...dataOrig]
+    let dataCopy = [...data]
     return new Promise((resolve, reject) => {
       // "/RFP[0-9]+-[0-9]+/
       dataCopy.forEach((el, index) => {
@@ -37,9 +30,7 @@ export default class {
   }
 
   paymentFilter (data = []) {
-    // prevent null values from copying
-    let dataOrig = data || []
-    let dataCopy = [...dataOrig]
+    let dataCopy = [...data]
     return new Promise((resolve, reject) => {
       // "/RFP[0-9]+-[0-9]+/
       dataCopy.forEach((el, index) => {

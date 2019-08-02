@@ -1,9 +1,10 @@
 export default class {
   constructor () { 
-    this.ALIAS = 'rs'
+    this.ALIAS = 'reimbursement_summary'
     this.REGEX = [
       {
-        expression: /BILLING/gi,
+        expression: /SUBJECT/gi,
+        filter: this.paymentFilter
       }
     ]
   }
@@ -30,12 +31,15 @@ export default class {
   }
 
   paymentFilter (data = []) {
-    let dataCopy = [...data]
+    // prevent null values from copying
+    let dataOrig = data || []
+    let dataCopy = [...dataOrig]
     return new Promise((resolve, reject) => {
       // "/RFP[0-9]+-[0-9]+/
       dataCopy.forEach((el, index) => {
-        let match = el.match(/PAYMENT/i)
-        if(match.length) dataCopy[index] = match[0].replace('P', '--')
+        let match = el.match(/SUBJECT/i)
+        match = match || []
+        if(match.length) dataCopy[index] = match[0].replace('S', '--')
       })
       resolve(dataCopy)
     })

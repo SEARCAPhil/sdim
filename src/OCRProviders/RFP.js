@@ -13,10 +13,10 @@ export default class {
     ]
   }
 
-  callback (text, res) {
+  callback (res) {
     return {
-      name : this.constructor.name,
-      labels : this.label(res)
+      name : this.ALIAS,
+      labels : this.label(res.data)
     }
   }
 

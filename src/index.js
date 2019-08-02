@@ -4,12 +4,14 @@ import path from 'path'
 import clc from "cli-color"
 import { FileReader } from './FileReader.js'
 import { OCRProcessor } from './OCRProcessor.js'
+import { RecognitionProcessor } from './RecognitionProcessor.js'
 
 class CLIProcessor{
   constructor (opt = {}) {
     this.program = new commander.Command ();
     this.fileReader = new FileReader ()
     this.ocrProcessor = new OCRProcessor ()
+    this.recognitionProcessor = new RecognitionProcessor ()
     this.setOptions()
   }
 
@@ -63,10 +65,12 @@ class CLIProcessor{
               for(let x in dataURL) {
                 // read per page
                 await dataURL[x].forEach(async(data, index) => { 
-                  console.log(await this.ocrProcessor.run(data, file.name, index))
+                  this.recognitionProcessor.recognize(await this.ocrProcessor.run(data, file.name, index))
+                  /*this.ocrProcessor.run(data, file.name, index).then(res => {
+                    this.recognitionProcessor.inspect(res)
+                  })*/
                 })
               }
-              //console.log(results)
             })()
 
           }).catch(err => {

@@ -31,8 +31,8 @@ export class OCRProcessor {
 
       return res
     }).catch(err => {
-      reject(err)
       console.log(clc.red(err))
+      return err
     })
   }
 
@@ -67,6 +67,7 @@ export class OCRProcessor {
     }).then(res => {  
       let results = {}
       results.name = providerClassInstance.ALIAS
+      results.classInstance = providerClassInstance
       results.data = res
       results.percentage = 0.0
 

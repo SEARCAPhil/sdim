@@ -46,19 +46,19 @@ class FileReader{
   }
 
   readPDF (pdf, file) {
-    let page = 1
     return new Promise((resolve, reject) => {
       // Read the PDF file into a typed array so PDF.js can load it
       let rawData = new Uint8Array(fs.readFileSync(pdf));
       let renderedPages = []
+      let page = 1
 
       PDFJS.getDocument(rawData).promise.then(async (doc) => {
         // READING
         renderedPages[file.name] = renderedPages[file.name] || []
-        console.log('reading '+clc.yellowBright(`${file.name}[${page}] ...`))
+        console.log('reading '+clc.yellowBright(`${file.name}...`))
         // render all pages
-        for(let x = 0; x < doc.numPages; x++) {
-          renderedPages[file.name][x] = await this.renderPage (doc, page)
+        for(let x = 1; x <= doc.numPages; x++) {
+          renderedPages[file.name][x] = await this.renderPage (doc, x)
         }
 
         resolve(renderedPages)
